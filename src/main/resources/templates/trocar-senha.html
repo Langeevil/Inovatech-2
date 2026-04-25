@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trocar senha</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <div class="container">
+        <h1>Trocar senha</h1>
+        <p>Digite a nova senha para finalizar a recuperacao.</p>
+
+        <div class="alert alert-warning">
+            <strong>Tempo restante do link</strong>
+            <p>Este link expira em <span id="contador-expiracao" role="timer" aria-live="polite" th:attr="data-segundos=${segundosRestantes}">05:00</span>.</p>
+        </div>
+
+        <form th:action="@{/trocar-senha}" method="post">
+            <input type="hidden" name="token" th:value="${token}">
+
+            <div class="form-group">
+                <label for="novaSenha">Nova senha:</label>
+                <input type="password" id="novaSenha" name="novaSenha" placeholder="Digite a nova senha" autocomplete="new-password" required>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit">Alterar senha</button>
+                <a class="btn btn-secondary" th:href="@{/login}">Voltar para o login</a>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        const contador = document.getElementById('contador-expiracao');
+        let segundos = Number(contador.dataset.segundos || 0);
+
+        function atualizarContador() {
+            const minutos = Math.floor(segundos / 60);
+            const segundosRestantes = segundos % 60;
+            contador.textContent = `${String(minutos).padStart(2, '0')}:${String(segundosRestantes).padStart(2, '0')}`;
+
+            if (segundos <= 0) {
+                contador.textContent = 'expirado';
+                return;
+            }
+
+            segundos -= 1;
+            setTimeout(atualizarContador, 1000);
+        }
+
+        atualizarContador();
+    </script>
+</body>
+</html>

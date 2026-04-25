@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema Inovatech</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <header>
+        <div class="app-header">
+            <div class="brand-title">Sistema Inovatech</div>
+
+            <details class="user-menu">
+                <summary>
+                    <span class="user-avatar" th:text="${#strings.substring(nomeUsuarioLogado, 0, 1)}">U</span>
+                    <span th:text="${nomeUsuarioLogado}">Usuario</span>
+                </summary>
+
+                <div class="user-menu-content">
+                    <p>Usuario logado</p>
+                    <strong th:text="${nomeUsuarioLogado}">Usuario</strong>
+
+                    <form th:action="@{/logout}" method="post">
+                        <button type="submit" class="btn btn-danger">Sair</button>
+                    </form>
+                </div>
+            </details>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="page-intro">
+            <h1>Gerenciamento academico</h1>
+            <p>Acesse as areas do sistema.</p>
+        </section>
+
+        <div class="menu-grid">
+            <a class="menu-card" th:href="@{/alunos/listar}">
+                <span class="menu-tag">Cadastro</span>
+                <h2>Alunos</h2>
+                <p>Gerenciar informacoes dos alunos.</p>
+            </a>
+
+            <a class="menu-card" th:href="@{/cursos/listar}">
+                <span class="menu-tag">Academico</span>
+                <h2>Cursos</h2>
+                <p>Gerenciar cursos disponiveis.</p>
+            </a>
+
+            <a class="menu-card" th:href="@{/professores/listar}">
+                <span class="menu-tag">Equipe</span>
+                <h2>Professores</h2>
+                <p>Gerenciar corpo docente.</p>
+            </a>
+
+            <a class="menu-card" th:href="@{/disciplinas/listar}">
+                <span class="menu-tag">Grade</span>
+                <h2>Disciplinas</h2>
+                <p>Gerenciar disciplinas por curso.</p>
+            </a>
+        </div>
+    </main>
+</body>
+</html>

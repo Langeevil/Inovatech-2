@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Usuarios</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <div class="container">
+        <h1>Cadastro de Usuarios</h1>
+
+        <form th:action="@{/usuarios/salvar}" method="post" th:object="${usuario}">
+            <input type="hidden" name="idUsuario" th:field="*{idUsuario}" />
+
+            <div class="form-group">
+                <label for="nomeUsuario">Nome:</label>
+                <input type="text" id="nomeUsuario" name="nomeUsuario" th:field="*{nomeUsuario}" placeholder="Digite o nome do usuario" autocomplete="name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="cpfUsuario">CPF:</label>
+                <input type="text" id="cpfUsuario" name="cpfUsuario" th:field="*{cpfUsuario}" placeholder="Digite o CPF do usuario" required>
+            </div>
+
+            <div class="form-group">
+                <label for="loginUsuario">Login:</label>
+                <input type="email" id="loginUsuario" name="loginUsuario" th:field="*{loginUsuario}" placeholder="Digite o login do usuario" required>
+            </div>
+
+            <div class="form-group">
+                <label for="senhaUsuario">Senha:</label>
+                <input type="password" id="senhaUsuario" name="senhaUsuario" th:field="*{senhaUsuario}" placeholder="Digite a senha do usuario" autocomplete="new-password" required>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" value="salvar">Salvar Usuario</button>
+                <a class="btn btn-secondary" th:href="@{/login}">Voltar para o login</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

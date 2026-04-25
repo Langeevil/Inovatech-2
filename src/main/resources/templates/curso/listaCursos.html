@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Cursos</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+    <header>
+        <h1>Gerenciamento de Cursos</h1>
+    </header>
+
+    <div class="container">
+        <div class="page-actions">
+            <a th:href="@{/cursos/criar}" class="add-button"><i aria-hidden="true" class="fas fa-plus"></i> Adicionar Novo Curso</a>
+            <button type="button" class="btn btn-secondary" onclick="history.back()"><i aria-hidden="true" class="fas fa-arrow-left"></i> Voltar</button>
+        </div>
+        
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th><i aria-hidden="true" class="fas fa-book"></i> Nome</th>
+                        <th><i aria-hidden="true" class="fas fa-clock"></i> Carga Horária</th>
+                        <th><i aria-hidden="true" class="fas fa-cog"></i> Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="curso : ${cursos}">
+                        <td th:text="${curso.nomeCurso}"></td>
+                        <td th:text="${curso.cargaHorariaCurso}"></td>
+                        <td>
+                            <a th:href="@{/cursos/editar/{id}(id=${curso.idCurso})}"><i aria-hidden="true" class="fas fa-edit"></i> Editar</a>
+                            <a th:href="@{/cursos/excluir/{id}(id=${curso.idCurso})}" onclick="return confirm('Tem certeza que deseja excluir este curso?')"><i aria-hidden="true" class="fas fa-trash"></i> Excluir</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Alunos</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <header>
+        <h1>Gerenciamento de Alunos</h1>
+    </header>
+
+    <div class="container">
+        <div class="page-actions">
+            <a th:href="@{/alunos/criar}" class="add-button"><i aria-hidden="true" class="fas fa-plus"></i> Adicionar Novo Aluno</a>
+            <button type="button" class="btn btn-secondary" onclick="history.back()"><i aria-hidden="true" class="fas fa-arrow-left"></i> Voltar</button>
+        </div>
+        
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th><i aria-hidden="true" class="fas fa-user"></i> Nome</th>
+                        <th><i aria-hidden="true" class="fas fa-envelope"></i> Email</th>
+                        <th><i aria-hidden="true" class="fas fa-phone"></i> Telefone</th>
+                        <th><i aria-hidden="true" class="fas fa-id-card"></i> CPF</th>
+                        <th><i aria-hidden="true" class="fas fa-city"></i> Cidade</th>
+                        <th><i aria-hidden="true" class="fas fa-map-marker-alt"></i> Endereço</th>
+                        <th><i aria-hidden="true" class="fas fa-book"></i> Curso</th>
+                        <th><i aria-hidden="true" class="fas fa-cog"></i> Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="aluno : ${alunos}">
+                        <td th:text="${aluno.nomeAluno}"></td>
+                        <td th:text="${aluno.emailAluno}"></td>
+                        <td th:text="${aluno.telefoneAluno}"></td>
+                        <td th:text="${aluno.cpfAluno}"></td>
+                        <td th:text="${aluno.cidadeAluno}"></td>
+                        <td th:text="${aluno.enderecoAluno}"></td>
+                        <td th:text="${aluno.curso.nomeCurso}"></td>
+                        <td>
+                            <a th:href="@{/alunos/editar/{id}(id=${aluno.idAluno})}"><i aria-hidden="true" class="fas fa-edit"></i> Editar</a>
+                            <a th:href="@{/alunos/excluir/{id}(id=${aluno.idAluno})}" onclick="return confirm('Tem certeza que deseja excluir este aluno?')"><i aria-hidden="true" class="fas fa-trash"></i> Excluir</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

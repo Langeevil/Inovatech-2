@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Professores</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <header>
+        <h1>Gerenciamento de Professores</h1>
+    </header>
+
+    <div class="container">
+        <div class="page-actions">
+            <a th:href="@{/professores/criar}" class="add-button"><i aria-hidden="true" class="fas fa-plus"></i> Adicionar Novo Professor</a>
+            <button type="button" class="btn btn-secondary" onclick="history.back()"><i aria-hidden="true" class="fas fa-arrow-left"></i> Voltar</button>
+        </div>
+        
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th><i aria-hidden="true" class="fas fa-user-tie"></i> Nome</th>
+                        <th><i aria-hidden="true" class="fas fa-phone"></i> Telefone</th>
+                        <th><i aria-hidden="true" class="fas fa-id-card"></i> CPF</th>
+                        <th><i aria-hidden="true" class="fas fa-graduation-cap"></i> Graduação</th>
+                        <th><i aria-hidden="true" class="fas fa-cog"></i> Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="professor : ${professores}">
+                        <td th:text="${professor.nomeProfessor}"></td>
+                        <td th:text="${professor.telefoneProfessor}"></td>
+                        <td th:text="${professor.cpfProfessor}"></td>
+                        <td th:text="${professor.graduacaoProfessor}"></td>
+                        <td>
+                            <a th:href="@{/professores/editar/{id}(id=${professor.idProfessor})}"><i aria-hidden="true" class="fas fa-edit"></i> Editar</a>
+                            <a th:href="@{/professores/excluir/{id}(id=${professor.idProfessor})}" onclick="return confirm('Tem certeza que deseja excluir este professor?')"><i aria-hidden="true" class="fas fa-trash"></i> Excluir</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

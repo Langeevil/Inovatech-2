@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário de Professor</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+    <header>
+        <h1>Cadastro de Professor</h1>
+    </header>
+
+    <div class="container">
+        <form th:action="@{/professores/salvar}" method="post" th:object="${professor}">
+            <input type="hidden" name="idProfessor" th:field="*{idProfessor}" />
+
+            <div class="form-group">
+                <label for="nomeProfessor"><i aria-hidden="true" class="fas fa-user-tie"></i> Nome Completo:</label>
+                <input type="text" name="nomeProfessor" th:field="*{nomeProfessor}" placeholder="Digite o nome do professor" required>
+            </div>
+
+            <div class="form-group">
+                <label for="telefoneProfessor"><i aria-hidden="true" class="fas fa-phone"></i> Telefone:</label>
+                <input type="tel" name="telefoneProfessor" th:field="*{telefoneProfessor}" placeholder="11999999999" maxlength="17" required>
+            </div>
+
+            <div class="form-group">
+                <label for="cpfProfessor"><i aria-hidden="true" class="fas fa-id-card"></i> CPF:</label>
+                <input type="text" name="cpfProfessor" th:field="*{cpfProfessor}" placeholder="000.000.000-00" required>
+            </div>
+
+            <div class="form-group">
+                <label for="graduacaoProfessor"><i aria-hidden="true" class="fas fa-graduation-cap"></i> Graduação:</label>
+                <input type="text" name="graduacaoProfessor" th:field="*{graduacaoProfessor}" placeholder="Ex: Mestrado em Engenharia" required>
+            </div>
+            
+            <div class="form-actions">
+                <button type="submit" class="btn-primary"><i aria-hidden="true" class="fas fa-save"></i> Salvar Professor</button>
+                <button type="button" class="btn btn-secondary" onclick="history.back()"><i aria-hidden="true" class="fas fa-arrow-left"></i> Voltar</button>
+            </div>
+        </form>
+    </div>
+</body>
+
+</html>

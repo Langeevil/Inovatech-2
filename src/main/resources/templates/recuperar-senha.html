@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recuperar senha</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <div class="container">
+        <h1>Recuperar senha</h1>
+        <p>Informe o e-mail cadastrado para receber as instrucoes de recuperacao.</p>
+
+        <form th:action="@{/recuperar-senha}" method="post">
+            <div class="form-group">
+                <label for="email">E-mail cadastrado:</label>
+                <input type="email" id="email" name="email" placeholder="Digite seu e-mail" autocomplete="email" required>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit">Enviar instrucoes</button>
+                <a class="btn btn-secondary" th:href="@{/login}">Voltar para o login</a>
+            </div>
+        </form>
+
+        <!--
+        <div class="modal-backdrop" th:if="${linkResetSenha}">
+            <div class="modal">
+                <h2>Link de troca de senha</h2>
+                <p>Este link expira em 5 minutos.</p>
+                <a th:href="@{${linkResetSenha}}" th:text="${linkResetSenha}"></a>
+
+                <div class="form-actions">
+                    <a class="btn btn-primary" th:href="@{${linkResetSenha}}">Abrir link</a>
+                    <a class="btn btn-secondary" th:href="@{/recuperar-senha}">Fechar</a>
+                </div>
+            </div>
+        </div>
+        -->
+
+        <div class="alert alert-success" role="status" th:if="${mensagem}">
+            <strong>E-mail enviado</strong>
+            <p th:text="${mensagem}"></p>
+            <p>O link expira em 5 minutos.</p>
+        </div>
+
+        <div class="alert alert-danger" role="alert" th:if="${erro}">
+            <strong>Nao foi possivel continuar</strong>
+            <p th:text="${erro}"></p>
+        </div>
+
+        <div class="alert alert-success" role="status" th:if="${param.sucesso}">
+            <strong>E-mail enviado</strong>
+            <p>As instrucoes foram enviadas para o e-mail informado.</p>
+        </div>
+
+        <div class="alert alert-danger" role="alert" th:if="${param.erro}">
+            <strong>Nao foi possivel continuar</strong>
+            <p>Nao foi possivel solicitar a recuperacao da senha.</p>
+        </div>
+    </div>
+</body>
+</html>

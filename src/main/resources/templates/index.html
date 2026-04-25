@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bem-vindo</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <header>
+        <h1>Sistema Inovatech</h1>
+    </header>
+
+    <div class="container">
+        <div class="card">
+            <h2>Bem-vindo ao Sistema Inovatech</h2>
+            <p>Faca o seu login para acessar as funcionalidades do sistema.</p>
+
+            <div class="form-actions">
+                <a class="btn btn-primary" th:href="@{/login}">Login</a>
+                <a class="btn btn-secondary" th:href="@{/usuarios/criar}">Cadastre-se</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
