@@ -39,7 +39,7 @@ public class Pedido {
     private Aluno aluno;
 
     // Relacionamento com os itens
-    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ItemDoPedido> itens;
 
     public double calcularTotal() {

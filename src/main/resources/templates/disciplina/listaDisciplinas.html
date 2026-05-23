@@ -15,7 +15,7 @@
     <div class="container">
         <div class="page-actions">
             <a th:href="@{/disciplinas/criar}" class="add-button"><i aria-hidden="true" class="fas fa-plus"></i> Adicionar Nova Disciplina</a>
-            <button type="button" class="btn btn-secondary" onclick="history.back()"><i aria-hidden="true" class="fas fa-arrow-left"></i> Voltar</button>
+            <a class="btn btn-secondary" th:href="@{/home}"><i aria-hidden="true" class="fas fa-arrow-left"></i> Voltar</a>
         </div>
         
         <div class="table-container">
@@ -46,5 +46,8 @@
             </table>
         </div>
     </div>
+    <footer class="footer">
+        <p>© <script>document.write(new Date().getFullYear());</script> Gabriel da Silva Siqueira · Todos os direitos reservados.</p>
+    </footer>
 </body>
 </html>

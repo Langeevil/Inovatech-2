@@ -1,24 +1,40 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Alunos</title>
+    <title>Relatorio de Alunos</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
+
 <body>
     <header>
-        <h1>Gerenciamento de Alunos</h1>
+        <h1>Relatorio de Alunos</h1>
     </header>
 
-    <div class="container">
+    <main class="container">
+        <section class="page-intro">
+            <h1>Alunos cadastrados</h1>
+            <p>Visualize os alunos e gere uma versao em PDF para impressao ou compartilhamento.</p>
+        </section>
+
         <div class="page-actions">
-            <a th:href="@{/alunos/criar}" class="add-button"><i aria-hidden="true" class="fas fa-plus"></i> Adicionar Novo Aluno</a>
-            <a class="btn btn-secondary" th:href="@{/home}"><i aria-hidden="true" class="fas fa-arrow-left"></i> Voltar</a>
+            <a class="add-button" th:href="@{/relatorios/alunos/pdf}" target="_blank">
+                <i aria-hidden="true" class="fas fa-file-pdf"></i> Gerar PDF
+            </a>
+            <a class="btn btn-secondary" th:href="@{/home}">
+                <i aria-hidden="true" class="fas fa-arrow-left"></i> Voltar
+            </a>
         </div>
-        
-        <div class="table-container">
+
+        <div class="relatorio-resumo">
+            <span><i aria-hidden="true" class="fas fa-users"></i> Total de alunos</span>
+            <strong th:text="${#lists.size(alunos)}">0</strong>
+        </div>
+
+        <div class="table-container relatorio-table">
             <table>
                 <thead>
                     <tr>
@@ -27,31 +43,29 @@
                         <th><i aria-hidden="true" class="fas fa-phone"></i> Telefone</th>
                         <th><i aria-hidden="true" class="fas fa-id-card"></i> CPF</th>
                         <th><i aria-hidden="true" class="fas fa-city"></i> Cidade</th>
-                        <th><i aria-hidden="true" class="fas fa-map-marker-alt"></i> Endereço</th>
                         <th><i aria-hidden="true" class="fas fa-book"></i> Curso</th>
-                        <th><i aria-hidden="true" class="fas fa-cog"></i> Ações</th>
                     </tr>
                 </thead>
                 <tbody>
+                    <tr th:if="${#lists.isEmpty(alunos)}">
+                        <td colspan="6" class="empty-state">Nenhum aluno cadastrado.</td>
+                    </tr>
                     <tr th:each="aluno : ${alunos}">
                         <td th:text="${aluno.nomeAluno}"></td>
                         <td th:text="${aluno.emailAluno}"></td>
                         <td th:text="${aluno.telefoneAluno}"></td>
                         <td th:text="${aluno.cpfAluno}"></td>
                         <td th:text="${aluno.cidadeAluno}"></td>
-                        <td th:text="${aluno.enderecoAluno}"></td>
-                        <td th:text="${aluno.curso.nomeCurso}"></td>
-                        <td>
-                            <a th:href="@{/alunos/editar/{id}(id=${aluno.idAluno})}"><i aria-hidden="true" class="fas fa-edit"></i> Editar</a>
-                            <a th:href="@{/alunos/excluir/{id}(id=${aluno.idAluno})}" onclick="return confirm('Tem certeza que deseja excluir este aluno?')"><i aria-hidden="true" class="fas fa-trash"></i> Excluir</a>
-                        </td>
+                        <td th:text="${aluno.curso != null ? aluno.curso.nomeCurso : '-'}"></td>
                     </tr>
                 </tbody>
             </table>
         </div>
-    </div>
+    </main>
+
     <footer class="footer">
         <p>© <script>document.write(new Date().getFullYear());</script> Gabriel da Silva Siqueira · Todos os direitos reservados.</p>
     </footer>
 </body>
+
 </html>

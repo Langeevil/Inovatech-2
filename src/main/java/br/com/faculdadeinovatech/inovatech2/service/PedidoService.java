@@ -1,6 +1,7 @@
 package br.com.faculdadeinovatech.inovatech2.service;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,8 +22,14 @@ public class PedidoService {
     private ProdutoRepository produtoRepository;
 
     public Pedido save(Pedido pedido) {
-        pedido.setDataPedido(LocalDate.now());
-        pedido.setItens(pedido.getItens());
+        if (pedido.getDataPedido() == null) {
+            pedido.setDataPedido(LocalDate.now());
+        }
+
+        if (pedido.getItens() == null || pedido.getItens().isEmpty()) {
+            throw new IllegalArgumentException("Pedido deve ter pelo menos um item");
+        }
+
         for (ItemDoPedido item : pedido.getItens()) {
             Produto produto = produtoRepository.findById(item.getProduto().getIdProduto())
                     .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
@@ -31,6 +38,19 @@ public class PedidoService {
             item.atualizarSubtotal();
             item.setPedido(pedido);
         }
+        pedido.atualizarTotal();
         return pedidoRepository.save(pedido);
+    }
+
+    public List<Pedido> findAll() {
+        return pedidoRepository.findAll();
+    }
+
+    public Pedido findById(Integer id) {
+        return pedidoRepository.findById(id).orElse(null);
+    }
+
+    public void deleteById(Integer id) {
+        pedidoRepository.deleteById(id);
     }
 }

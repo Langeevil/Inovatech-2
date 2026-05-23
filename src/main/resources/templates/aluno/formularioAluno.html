@@ -30,12 +30,14 @@
 
             <div class="form-group">
                 <label for="telefoneAluno"><i aria-hidden="true" class="fas fa-phone"></i> Telefone:</label>
-                <input type="text" name="telefoneAluno" th:field="*{telefoneAluno}" placeholder="(00) 0000-0000" required>
+                <input type="tel" name="telefoneAluno" th:field="*{telefoneAluno}" placeholder="(00) 00000-0000"
+                    data-validacao="telefone" required>
             </div>
 
             <div class="form-group">
                 <label for="cpfAluno"><i aria-hidden="true" class="fas fa-id-card"></i> CPF:</label>
-                <input type="text" name="cpfAluno" th:field="*{cpfAluno}" placeholder="000.000.000-00" required>
+                <input type="text" name="cpfAluno" th:field="*{cpfAluno}" placeholder="000.000.000-00"
+                    data-validacao="cpf" required>
             </div>
 
             <div class="form-group">
@@ -58,10 +60,14 @@
             
             <div class="form-actions">
                 <button type="submit" class="btn-primary"><i aria-hidden="true" class="fas fa-save"></i> Salvar Aluno</button>
-                <button type="button" class="btn btn-secondary" onclick="history.back()"><i aria-hidden="true" class="fas fa-arrow-left"></i> Voltar</button>
+                <a class="btn btn-secondary" th:href="@{/alunos/listar}"><i aria-hidden="true" class="fas fa-arrow-left"></i> Voltar</a>
             </div>
         </form>
     </div>
+    <footer class="footer">
+        <p>© <script>document.write(new Date().getFullYear());</script> Gabriel da Silva Siqueira · Todos os direitos reservados.</p>
+    </footer>
+    <script th:src="@{/js/validacoes.js}"></script>
 </body>
 
 </html>

@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Pedido</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+    <header>
+        <h1>Cadastro de Pedido</h1>
+    </header>
+
+    <div class="container">
+        <form id="formPedido" class="pedido-form" th:action="@{/pedidos/salvar}" method="post" th:object="${pedido}">
+            <input type="hidden" name="idPedido" th:field="*{idPedido}" />
+
+            <div class="form-group">
+                <label for="dataPedido"><i aria-hidden="true" class="fas fa-calendar-alt"></i> Data do Pedido:</label>
+                <input type="date" id="dataPedido" name="dataPedido" th:field="*{dataPedido}" required>
+            </div>
+
+            <div class="form-group">
+                <label for="alunoSelecionado"><i aria-hidden="true" class="fas fa-user"></i> Aluno:</label>
+                <input type="text" id="alunoSelecionado" list="listAlunos" placeholder="Selecione um aluno"
+                       th:value="${pedido.aluno != null ? pedido.aluno.idAluno + ' - ' + pedido.aluno.nomeAluno : ''}" required>
+                <input type="hidden" id="alunoId" name="aluno.idAluno" th:value="${pedido.aluno != null ? pedido.aluno.idAluno : ''}">
+                <datalist id="listAlunos">
+                    <option th:each="a : ${alunos}" th:value="${a.idAluno + ' - ' + a.nomeAluno}"></option>
+                </datalist>
+            </div>
+
+            <div class="carrinho-adicionar">
+                <div class="form-group">
+                    <label for="produtoSelecionado"><i aria-hidden="true" class="fas fa-box"></i> Produto:</label>
+                    <input type="text" id="produtoSelecionado" list="listProdutos" placeholder="Selecione um produto">
+                    <datalist id="listProdutos">
+                        <option th:each="p : ${produtos}"
+                                th:value="${p.idProduto + ' - ' + p.descricaoProduto}"
+                                th:attr="data-preco=${p.valorProduto}"></option>
+                    </datalist>
+                </div>
+
+                <div class="form-group">
+                    <label for="quantidade"><i aria-hidden="true" class="fas fa-sort-numeric-up"></i> Quantidade:</label>
+                    <input type="number" id="quantidade" placeholder="Ex: 2" data-validacao="inteiro" value="1">
+                </div>
+
+                <button type="button" id="adicionarItem" class="btn-success"><i aria-hidden="true" class="fas fa-cart-plus"></i> Adicionar Item</button>
+            </div>
+
+            <div class="carrinho-cabecalho">
+                <h2><i aria-hidden="true" class="fas fa-shopping-cart"></i> Carrinho do Pedido</h2>
+                <span id="contadorItens">0 itens</span>
+            </div>
+
+            <div class="table-container carrinho-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Produto</th>
+                            <th>Quantidade</th>
+                            <th>Preco Unitario</th>
+                            <th>Subtotal</th>
+                            <th>Acao</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabela-itens">
+                        <tr>
+                            <td colspan="5" class="carrinho-vazio">Nenhum produto adicionado ao pedido</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div id="itensPedidoCampos"></div>
+            <div id="itensExistentes" hidden>
+                <div th:each="item : *{itens}"
+                     th:attr="data-id-item=${item.idItem},data-id-produto=${item.produto.idProduto},data-descricao-produto=${item.produto.descricaoProduto},data-preco=${item.preco},data-quantidade=${item.quantidade}"></div>
+            </div>
+
+            <div class="pedido-total">
+                <label for="totalPedido"><i aria-hidden="true" class="fas fa-dollar-sign"></i> Total do Pedido:</label>
+                <input type="number" id="totalPedido" name="totalPedido" th:field="*{totalPedido}" data-validacao="dinheiro"
+                    value="0.00" readonly required>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn-primary"><i aria-hidden="true" class="fas fa-save"></i> Salvar Pedido</button>
+                <a class="btn btn-secondary" th:href="@{/pedidos/listar}"><i aria-hidden="true" class="fas fa-arrow-left"></i> Voltar</a>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        const preencherIdPeloDatalist = (inputId, hiddenId) => {
+            const input = document.getElementById(inputId);
+            const hidden = document.getElementById(hiddenId);
+
+            input.addEventListener('input', () => {
+                const idSelecionado = input.value.split(' - ')[0];
+                hidden.value = /^\d+$/.test(idSelecionado) ? idSelecionado : '';
+            });
+        };
+
+        const formPedido = document.getElementById('formPedido');
+        const dataPedidoInput = document.getElementById('dataPedido');
+        const produtoInput = document.getElementById('produtoSelecionado');
+        const quantidadeInput = document.getElementById('quantidade');
+        const totalInput = document.getElementById('totalPedido');
+        const tabelaItens = document.getElementById('tabela-itens');
+        const camposItens = document.getElementById('itensPedidoCampos');
+        const adicionarItemBotao = document.getElementById('adicionarItem');
+        const contadorItens = document.getElementById('contadorItens');
+        const produtosOptions = Array.from(document.querySelectorAll('#listProdutos option'));
+        const itensExistentes = Array.from(document.querySelectorAll('#itensExistentes div'));
+        const itensPedido = itensExistentes.map((item) => ({
+            idItem: item.dataset.idItem,
+            idProduto: item.dataset.idProduto,
+            descricaoProduto: item.dataset.descricaoProduto,
+            preco: Number(item.dataset.preco),
+            quantidade: Number(item.dataset.quantidade)
+        }));
+
+        const formatarMoeda = (valor) => valor.toLocaleString('pt-BR', {
+            style: 'currency',
+            currency: 'BRL'
+        });
+
+        const buscarProdutoSelecionado = () => {
+            const option = produtosOptions.find((produtoOption) => produtoOption.value === produtoInput.value);
+
+            if (!option) {
+                return null;
+            }
+
+            const idProduto = option.value.split(' - ')[0];
+            const descricaoProduto = option.value.substring(option.value.indexOf(' - ') + 3);
+            const preco = Number(option.dataset.preco);
+
+            return { idProduto, descricaoProduto, preco };
+        };
+
+        const atualizarCamposItens = () => {
+            camposItens.innerHTML = '';
+
+            itensPedido.forEach((item, index) => {
+                const campoIdItem = item.idItem ? `<input type="hidden" name="itens[${index}].idItem" value="${item.idItem}">` : '';
+                camposItens.insertAdjacentHTML('beforeend', `
+                    ${campoIdItem}
+                    <input type="hidden" name="itens[${index}].produto.idProduto" value="${item.idProduto}">
+                    <input type="hidden" name="itens[${index}].quantidade" value="${item.quantidade}">
+                `);
+            });
+        };
+
+        const atualizarTotal = () => {
+            const total = itensPedido.reduce((soma, item) => soma + (item.quantidade * item.preco), 0);
+            totalInput.value = total.toFixed(2);
+        };
+
+        const atualizarContadorItens = () => {
+            const totalItens = itensPedido.reduce((soma, item) => soma + item.quantidade, 0);
+            contadorItens.textContent = totalItens === 1 ? '1 item' : `${totalItens} itens`;
+        };
+
+        const renderizarItens = () => {
+            tabelaItens.innerHTML = '';
+
+            if (itensPedido.length === 0) {
+                tabelaItens.innerHTML = '<tr><td colspan="5" class="carrinho-vazio">Nenhum produto adicionado ao pedido</td></tr>';
+                atualizarCamposItens();
+                atualizarTotal();
+                atualizarContadorItens();
+                return;
+            }
+
+            itensPedido.forEach((item, index) => {
+                const subtotal = item.quantidade * item.preco;
+
+                const linha = document.createElement('tr');
+                const produtoCelula = document.createElement('td');
+                const quantidadeCelula = document.createElement('td');
+                const quantidadeCampo = document.createElement('input');
+                const precoCelula = document.createElement('td');
+                const subtotalCelula = document.createElement('td');
+                const acaoCelula = document.createElement('td');
+                const removerBotao = document.createElement('button');
+
+                produtoCelula.textContent = item.descricaoProduto;
+                quantidadeCampo.type = 'number';
+                quantidadeCampo.className = 'quantidade-item';
+                quantidadeCampo.dataset.validacao = 'inteiro';
+                quantidadeCampo.value = item.quantidade;
+                quantidadeCampo.dataset.index = index;
+                quantidadeCelula.appendChild(quantidadeCampo);
+                precoCelula.textContent = formatarMoeda(item.preco);
+                subtotalCelula.textContent = formatarMoeda(subtotal);
+                removerBotao.type = 'button';
+                removerBotao.className = 'btn-danger remover-item';
+                removerBotao.dataset.index = index;
+                removerBotao.innerHTML = '<i aria-hidden="true" class="fas fa-trash"></i> Remover';
+
+                acaoCelula.appendChild(removerBotao);
+                linha.append(produtoCelula, quantidadeCelula, precoCelula, subtotalCelula, acaoCelula);
+                tabelaItens.appendChild(linha);
+            });
+
+            atualizarCamposItens();
+            atualizarTotal();
+            atualizarContadorItens();
+        };
+
+        const adicionarItem = () => {
+            const produtoSelecionado = buscarProdutoSelecionado();
+            const quantidade = Number(quantidadeInput.value);
+
+            if (!produtoSelecionado) {
+                alert('Selecione um produto valido.');
+                return;
+            }
+
+            if (!Number.isInteger(quantidade) || quantidade < 1) {
+                alert('Informe uma quantidade maior que zero.');
+                return;
+            }
+
+            const itemExistente = itensPedido.find((item) => item.idProduto === produtoSelecionado.idProduto);
+
+            if (itemExistente) {
+                alert('Este produto ja foi adicionado ao carrinho. Altere a quantidade diretamente na tabela.');
+                produtoInput.value = '';
+                return;
+            }
+
+            itensPedido.push({
+                idProduto: produtoSelecionado.idProduto,
+                descricaoProduto: produtoSelecionado.descricaoProduto,
+                preco: produtoSelecionado.preco,
+                quantidade
+            });
+
+            produtoInput.value = '';
+            quantidadeInput.value = '1';
+            renderizarItens();
+        };
+
+        preencherIdPeloDatalist('alunoSelecionado', 'alunoId');
+        adicionarItemBotao.addEventListener('click', adicionarItem);
+        tabelaItens.addEventListener('click', (event) => {
+            const botaoRemover = event.target.closest('.remover-item');
+
+            if (!botaoRemover) {
+                return;
+            }
+
+            itensPedido.splice(Number(botaoRemover.dataset.index), 1);
+            renderizarItens();
+        });
+        tabelaItens.addEventListener('input', (event) => {
+            if (!event.target.classList.contains('quantidade-item')) {
+                return;
+            }
+
+            const index = Number(event.target.dataset.index);
+            const quantidade = Number(event.target.value);
+
+            if (!Number.isInteger(quantidade) || quantidade < 1) {
+                return;
+            }
+
+            itensPedido[index].quantidade = quantidade;
+            event.target.closest('tr').children[3].textContent = formatarMoeda(itensPedido[index].quantidade * itensPedido[index].preco);
+            atualizarCamposItens();
+            atualizarTotal();
+            atualizarContadorItens();
+        });
+        tabelaItens.addEventListener('change', (event) => {
+            if (!event.target.classList.contains('quantidade-item')) {
+                return;
+            }
+
+            const index = Number(event.target.dataset.index);
+
+            if (Number(event.target.value) < 1) {
+                itensPedido[index].quantidade = 1;
+                event.target.value = '1';
+                event.target.closest('tr').children[3].textContent = formatarMoeda(itensPedido[index].preco);
+                atualizarCamposItens();
+                atualizarTotal();
+                atualizarContadorItens();
+            }
+        });
+
+        formPedido.addEventListener('submit', (event) => {
+            if (!document.getElementById('alunoId').value) {
+                event.preventDefault();
+                alert('Selecione um aluno da lista.');
+                return;
+            }
+
+            if (itensPedido.length === 0) {
+                event.preventDefault();
+                alert('Adicione pelo menos um produto ao pedido.');
+            }
+        });
+
+        if (!dataPedidoInput.value) {
+            const hoje = new Date();
+            const ano = hoje.getFullYear();
+            const mes = String(hoje.getMonth() + 1).padStart(2, '0');
+            const dia = String(hoje.getDate()).padStart(2, '0');
+            dataPedidoInput.value = `${ano}-${mes}-${dia}`;
+        }
+
+        renderizarItens();
+    </script>
+    <script th:src="@{/js/validacoes.js}"></script>
+    <footer class="footer">
+        <p>© <script>document.write(new Date().getFullYear());</script> Gabriel da Silva Siqueira · Todos os direitos reservados.</p>
+    </footer>
+</body>
+
+</html>

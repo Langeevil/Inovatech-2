@@ -59,7 +59,29 @@
                 <h2>Disciplinas</h2>
                 <p>Gerenciar disciplinas por curso.</p>
             </a>
+            
+            <a class="menu-card" th:href="@{/pedidos/listar}">
+                <span class="menu-tag">Financeiro</span>
+                <h2>Pedidos</h2>
+                <p>Gerenciar pedidos e vendas.</p>
+            </a>
+            
+            <a class="menu-card" th:href="@{/produtos/listar}">
+                <span class="menu-tag">Financeiro</span>
+                <h2>Produtos</h2>
+                <p>Gerenciar produtos e servicos.</p>
+            </a>
+
+            <a class="menu-card" th:href="@{/relatorios/alunos}">
+                <span class="menu-tag">Relatorios</span>
+                <h2>Relatorio de Alunos</h2>
+                <p>Visualizar alunos cadastrados e gerar PDF.</p>
+            </a>
+
         </div>
     </main>
+    <footer class="footer">
+        <p>© <script>document.write(new Date().getFullYear());</script> Gabriel da Silva Siqueira · Todos os direitos reservados.</p>
+    </footer>
 </body>
 </html>

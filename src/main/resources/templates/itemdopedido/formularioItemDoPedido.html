@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Item do Pedido</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+    <header>
+        <h1>Cadastro de Item do Pedido</h1>
+    </header>
+
+    <div class="container">
+        <form th:action="@{/itensdopedido/salvar}" method="post" th:object="${itemDoPedido}">
+            <input type="hidden" name="idItem" th:field="*{idItem}" />
+
+            <div class="form-group">
+                <label for="pedido"><i aria-hidden="true" class="fas fa-receipt"></i> Pedido:</label>
+                <select th:field="*{pedido}" required>
+                    <option value="" disabled selected>Selecione um pedido</option>
+                    <option th:each="pedido : ${pedidos}" th:value="${pedido.idPedido}" th:text="${pedido.idPedido}"></option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="produto"><i aria-hidden="true" class="fas fa-box"></i> Produto:</label>
+                <select th:field="*{produto}" required>
+                    <option value="" disabled selected>Selecione um produto</option>
+                    <option th:each="produto : ${produtos}" th:value="${produto.idProduto}" th:text="${produto.descricaoProduto}"></option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="quantidade"><i aria-hidden="true" class="fas fa-sort-numeric-up"></i> Quantidade:</label>
+                <input type="number" name="quantidade" th:field="*{quantidade}" placeholder="Ex: 2"
+                    data-validacao="inteiro" required>
+            </div>
+
+            <div class="form-group">
+                <label for="preco"><i aria-hidden="true" class="fas fa-dollar-sign"></i> Preco:</label>
+                <input type="number" name="preco" th:field="*{preco}" placeholder="Ex: 99.90"
+                    data-validacao="dinheiro" required>
+            </div>
+
+            <div class="form-group">
+                <label for="subtotal"><i aria-hidden="true" class="fas fa-calculator"></i> Subtotal:</label>
+                <input type="number" name="subtotal" th:field="*{subtotal}" placeholder="Ex: 199.80"
+                    data-validacao="dinheiro" required>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn-primary"><i aria-hidden="true" class="fas fa-save"></i> Salvar Item</button>
+                <a class="btn btn-secondary" th:href="@{/itensdopedido/listar}"><i aria-hidden="true" class="fas fa-arrow-left"></i> Voltar</a>
+            </div>
+        </form>
+    </div>
+    <footer class="footer">
+        <p>© <script>document.write(new Date().getFullYear());</script> Gabriel da Silva Siqueira · Todos os direitos reservados.</p>
+    </footer>
+    <script th:src="@{/js/validacoes.js}"></script>
+</body>
+
+</html>

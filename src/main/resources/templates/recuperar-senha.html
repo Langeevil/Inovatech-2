@@ -9,7 +9,7 @@
 <body>
     <div class="container">
         <h1>Recuperar senha</h1>
-        <p>Informe o e-mail cadastrado para receber as instrucoes de recuperacao.</p>
+        <p>Informe o e-mail cadastrado para receber as instruções de recuperação.</p>
 
         <form th:action="@{/recuperar-senha}" method="post">
             <div class="form-group">
@@ -18,7 +18,7 @@
             </div>
 
             <div class="form-actions">
-                <button type="submit">Enviar instrucoes</button>
+                <button type="submit">Enviar instruções</button>
                 <a class="btn btn-secondary" th:href="@{/login}">Voltar para o login</a>
             </div>
         </form>
@@ -45,13 +45,13 @@
         </div>
 
         <div class="alert alert-danger" role="alert" th:if="${erro}">
-            <strong>Nao foi possivel continuar</strong>
+            <strong>Não foi possivel continuar</strong>
             <p th:text="${erro}"></p>
         </div>
 
         <div class="alert alert-success" role="status" th:if="${param.sucesso}">
             <strong>E-mail enviado</strong>
-            <p>As instrucoes foram enviadas para o e-mail informado.</p>
+            <p>As instruções foram enviadas para o e-mail informado.</p>
         </div>
 
         <div class="alert alert-danger" role="alert" th:if="${param.erro}">
@@ -59,5 +59,8 @@
             <p>Nao foi possivel solicitar a recuperacao da senha.</p>
         </div>
     </div>
+    <footer class="footer">
+        <p>© <script>document.write(new Date().getFullYear());</script> Gabriel da Silva Siqueira · Todos os direitos reservados.</p>
+    </footer>
 </body>
 </html>

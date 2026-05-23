@@ -23,14 +23,19 @@
 
             <div class="form-group">
                 <label for="cargaHorariaCurso"><i aria-hidden="true" class="fas fa-clock"></i> Carga Horária:</label>
-                <input type="number" name="cargaHorariaCurso" th:field="*{cargaHorariaCurso}" placeholder="Ex: 2000" required>
+                <input type="number" name="cargaHorariaCurso" th:field="*{cargaHorariaCurso}" placeholder="Ex: 2000"
+                    data-validacao="inteiro" required>
             </div>
 
             <div class="form-actions">
                 <button type="submit" class="btn-primary"><i aria-hidden="true" class="fas fa-save"></i> Salvar Curso</button>
-                <button type="button" class="btn btn-secondary" onclick="history.back()"><i aria-hidden="true" class="fas fa-arrow-left"></i> Voltar</button>
+                <a class="btn btn-secondary" th:href="@{/cursos/listar}"><i aria-hidden="true" class="fas fa-arrow-left"></i> Voltar</a>
             </div>
         </form>
     </div>
+    <footer class="footer">
+        <p>© <script>document.write(new Date().getFullYear());</script> Gabriel da Silva Siqueira · Todos os direitos reservados.</p>
+    </footer>
+    <script th:src="@{/js/validacoes.js}"></script>
 </body>
 </html>

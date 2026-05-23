@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Pedidos</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <header>
+        <h1>Gerenciamento de Pedidos</h1>
+    </header>
+
+    <div class="container">
+        <div class="page-actions">
+            <a th:href="@{/pedidos/criar}" class="add-button"><i aria-hidden="true" class="fas fa-plus"></i> Adicionar Novo Pedido</a>
+            <a class="btn btn-secondary" th:href="@{/home}"><i aria-hidden="true" class="fas fa-arrow-left"></i> Voltar</a>
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th><i aria-hidden="true" class="fas fa-hashtag"></i> Codigo</th>
+                        <th><i aria-hidden="true" class="fas fa-calendar-alt"></i> Data</th>
+                        <th><i aria-hidden="true" class="fas fa-user"></i> Aluno</th>
+                        <th><i aria-hidden="true" class="fas fa-dollar-sign"></i> Total</th>
+                        <th><i aria-hidden="true" class="fas fa-cog"></i> Acoes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="pedido : ${pedidos}">
+                        <td th:text="${pedido.idPedido}"></td>
+                        <td th:text="${pedido.dataPedido}"></td>
+                        <td th:text="${pedido.aluno.nomeAluno}"></td>
+                        <td th:text="${pedido.totalPedido}"></td>
+                        <td>
+                            <a th:href="@{/pedidos/editar/{id}(id=${pedido.idPedido})}"><i aria-hidden="true" class="fas fa-edit"></i> Editar</a>
+                            <a th:href="@{/pedidos/excluir/{id}(id=${pedido.idPedido})}" onclick="return confirm('Tem certeza que deseja excluir este pedido?')"><i aria-hidden="true" class="fas fa-trash"></i> Excluir</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <footer class="footer">
+        <p>© <script>document.write(new Date().getFullYear());</script> Gabriel da Silva Siqueira · Todos os direitos reservados.</p>
+    </footer>
+</body>
+</html>

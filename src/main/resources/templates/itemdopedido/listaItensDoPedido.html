@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Itens do Pedido</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <header>
+        <h1>Gerenciamento de Itens do Pedido</h1>
+    </header>
+
+    <div class="container">
+        <div class="page-actions">
+            <a th:href="@{/itensdopedido/criar}" class="add-button"><i aria-hidden="true" class="fas fa-plus"></i> Adicionar Novo Item</a>
+            <a class="btn btn-secondary" th:href="@{/home}"><i aria-hidden="true" class="fas fa-arrow-left"></i> Voltar</a>
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th><i aria-hidden="true" class="fas fa-hashtag"></i> Codigo</th>
+                        <th><i aria-hidden="true" class="fas fa-receipt"></i> Pedido</th>
+                        <th><i aria-hidden="true" class="fas fa-box"></i> Produto</th>
+                        <th><i aria-hidden="true" class="fas fa-sort-numeric-up"></i> Quantidade</th>
+                        <th><i aria-hidden="true" class="fas fa-dollar-sign"></i> Preco</th>
+                        <th><i aria-hidden="true" class="fas fa-calculator"></i> Subtotal</th>
+                        <th><i aria-hidden="true" class="fas fa-cog"></i> Acoes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="itemDoPedido : ${itensDoPedido}">
+                        <td th:text="${itemDoPedido.idItem}"></td>
+                        <td th:text="${itemDoPedido.pedido.idPedido}"></td>
+                        <td th:text="${itemDoPedido.produto.descricaoProduto}"></td>
+                        <td th:text="${itemDoPedido.quantidade}"></td>
+                        <td th:text="${itemDoPedido.preco}"></td>
+                        <td th:text="${itemDoPedido.subtotal}"></td>
+                        <td>
+                            <a th:href="@{/itensdopedido/editar/{id}(id=${itemDoPedido.idItem})}"><i aria-hidden="true" class="fas fa-edit"></i> Editar</a>
+                            <a th:href="@{/itensdopedido/excluir/{id}(id=${itemDoPedido.idItem})}" onclick="return confirm('Tem certeza que deseja excluir este item do pedido?')"><i aria-hidden="true" class="fas fa-trash"></i> Excluir</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <footer class="footer">
+        <p>© <script>document.write(new Date().getFullYear());</script> Gabriel da Silva Siqueira · Todos os direitos reservados.</p>
+    </footer>
+</body>
+</html>

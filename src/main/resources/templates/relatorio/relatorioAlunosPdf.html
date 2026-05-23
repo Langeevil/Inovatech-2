@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Relatorio de Alunos</title>
+    <style>
+        @page {
+            size: A4 landscape;
+            margin: 18mm;
+        }
+
+        body {
+            color: #1a1a2e;
+            font-family: Arial, sans-serif;
+            font-size: 11px;
+            line-height: 1.4;
+        }
+
+        h1 {
+            border-bottom: 3px solid #0066cc;
+            color: #1a1a2e;
+            font-size: 22px;
+            margin: 0 0 8px;
+            padding-bottom: 8px;
+        }
+
+        .meta {
+            color: #5f6b7a;
+            margin-bottom: 18px;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        th {
+            background: #0066cc;
+            color: #ffffff;
+            font-size: 10px;
+            padding: 9px;
+            text-align: left;
+            text-transform: uppercase;
+        }
+
+        td {
+            border-bottom: 1px solid #d9e0ea;
+            padding: 8px 9px;
+            vertical-align: top;
+        }
+
+        tr:nth-child(even) td {
+            background: #f6f8fb;
+        }
+
+        .empty-state {
+            color: #5f6b7a;
+            padding: 18px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Relatorio de Alunos</h1>
+    <div class="meta">
+        Total de alunos: <strong th:text="${#lists.size(alunos)}">0</strong>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Email</th>
+                <th>Telefone</th>
+                <th>CPF</th>
+                <th>Cidade</th>
+                <th>Curso</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:if="${#lists.isEmpty(alunos)}">
+                <td colspan="6" class="empty-state">Nenhum aluno cadastrado.</td>
+            </tr>
+            <tr th:each="aluno : ${alunos}">
+                <td th:text="${aluno.nomeAluno}"></td>
+                <td th:text="${aluno.emailAluno}"></td>
+                <td th:text="${aluno.telefoneAluno}"></td>
+                <td th:text="${aluno.cpfAluno}"></td>
+                <td th:text="${aluno.cidadeAluno}"></td>
+                <td th:text="${aluno.curso != null ? aluno.curso.nomeCurso : '-'}"></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+
+</html>

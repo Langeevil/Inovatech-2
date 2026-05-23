@@ -17,9 +17,30 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/login", "/recuperar-senha", "/trocar-senha", "/inovatech", "/css/**",
-                                "/images/**", "/usuarios/criar", "/usuarios/salvar", "/usuario/formularioUsuario.html")
-                        .permitAll()
+                        .requestMatchers(
+                                "/",
+                                "/inovatech",
+                                "/login",
+                                "/recuperar-senha",
+                                "/trocar-senha",
+                                "/usuarios/criar",
+                                "/usuarios/salvar",
+                                "/css/**",
+                                "/images/**",
+                                "/js/**",
+                                "/webjars/**")
+                            .permitAll()
+                        .requestMatchers(
+                                "/home",
+                                "/alunos/**",
+                                "/cursos/**",
+                                "/disciplinas/**",
+                                "/professores/**",
+                                "/produtos/**",
+                                "/pedidos/**",
+                                "/itensdopedido/**",
+                                "/relatorios/**")
+                            .authenticated()
                         .anyRequest().authenticated())
                 .formLogin(form -> form
                         .loginPage("/login")
@@ -27,6 +48,8 @@ public class SecurityConfig {
                         .permitAll())
                 .logout(logout -> logout
                         .logoutSuccessUrl("/login?logout")
+                        .invalidateHttpSession(true)
+                        .deleteCookies("JSESSIONID")
                         .permitAll());
 
         return http.build();

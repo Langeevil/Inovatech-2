@@ -326,6 +326,7 @@ input[type="text"],
 input[type="email"],
 input[type="password"],
 input[type="tel"],
+input[type="date"],
 input[type="number"],
 select,
 textarea {
@@ -342,6 +343,7 @@ input[type="text"]:focus,
 input[type="email"]:focus,
 input[type="password"]:focus,
 input[type="tel"]:focus,
+input[type="date"]:focus,
 input[type="number"]:focus,
 select:focus,
 textarea:focus {
@@ -360,6 +362,18 @@ textarea:focus-visible {
 
 input[type="hidden"] {
     display: none;
+}
+
+input[type="date"] {
+    color: var(--dark-text);
+    background-color: var(--surface-color);
+    cursor: pointer;
+}
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+    opacity: 0.75;
+    filter: invert(31%) sepia(98%) saturate(1682%) hue-rotate(189deg) brightness(91%) contrast(101%);
 }
 
 select {
@@ -512,6 +526,144 @@ table a[onclick*="confirm"]:hover {
     gap: 12px;
     flex-wrap: wrap;
     margin-top: 10px;
+}
+
+.pedido-form {
+    max-width: 920px;
+}
+
+.carrinho-adicionar {
+    display: grid;
+    grid-template-columns: minmax(260px, 1fr) minmax(130px, 170px) auto;
+    align-items: end;
+    gap: 16px;
+    margin: 10px 0 26px;
+    padding: 20px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background: #fbfdff;
+}
+
+.carrinho-adicionar .form-group {
+    margin-bottom: 0;
+}
+
+.carrinho-adicionar button {
+    min-height: 51px;
+    white-space: nowrap;
+}
+
+.carrinho-cabecalho {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    margin-top: 12px;
+}
+
+.carrinho-cabecalho h2 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0;
+    color: var(--dark-text);
+    font-size: 1.2em;
+}
+
+.carrinho-cabecalho span {
+    padding: 6px 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 999px;
+    background: var(--light-bg);
+    color: var(--muted-text);
+    font-weight: 600;
+}
+
+.carrinho-container {
+    margin: 14px 0 24px;
+    overflow-x: auto;
+}
+
+.carrinho-container table td:last-child {
+    display: table-cell;
+}
+
+.carrinho-vazio {
+    text-align: center;
+    color: var(--muted-text);
+}
+
+.pedido-total {
+    display: grid;
+    grid-template-columns: 1fr minmax(180px, 240px);
+    align-items: end;
+    gap: 16px;
+    margin: 20px 0 28px;
+    padding: 18px 20px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background: var(--light-bg);
+}
+
+.pedido-total label {
+    margin-bottom: 0;
+    text-align: right;
+    font-size: 1.05em;
+}
+
+.remover-item {
+    padding: 8px 12px;
+    font-size: 0.9em;
+}
+
+.quantidade-item {
+    max-width: 96px;
+    padding: 8px 10px;
+    text-align: center;
+}
+
+.relatorio-resumo {
+    display: inline-flex;
+    align-items: center;
+    gap: 18px;
+    margin-bottom: 20px;
+    padding: 16px 18px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    background: var(--surface-color);
+}
+
+.relatorio-resumo span {
+    color: var(--muted-text);
+    font-weight: 600;
+}
+
+.relatorio-resumo strong {
+    color: var(--primary-color);
+    font-size: 1.6em;
+}
+
+.relatorio-table table td:last-child {
+    display: table-cell;
+}
+
+.empty-state {
+    color: var(--muted-text);
+    padding: 28px;
+    text-align: center;
+}
+
+.footer {
+    max-width: 1200px;
+    margin: 40px auto 0;
+    padding: 20px;
+    text-align: center;
+    border-top: 1px solid var(--border-color);
+}
+
+.footer p {
+    color: var(--muted-text);
+    font-size: 0.95em;
 }
 
 .menu-icon {
@@ -699,9 +851,29 @@ table a[onclick*="confirm"]:hover {
     }
 
     .page-actions,
-    .form-actions {
+    .form-actions,
+    .pedido-total {
         flex-direction: column;
         align-items: stretch;
+    }
+
+    .carrinho-adicionar {
+        grid-template-columns: 1fr;
+    }
+
+    .carrinho-cabecalho {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .pedido-total {
+        display: block;
+    }
+
+    .pedido-total label {
+        display: block;
+        margin-bottom: 8px;
+        text-align: left;
     }
 
     .page-actions .btn,
