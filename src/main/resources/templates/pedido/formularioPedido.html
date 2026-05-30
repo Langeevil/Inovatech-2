@@ -14,8 +14,11 @@
         <h1>Cadastro de Pedido</h1>
     </header>
 
+    <th:block th:replace="~{fragments/breadcrumbs :: breadcrumb(${breadcrumbItems})}"></th:block>
+
     <div class="container">
         <form id="formPedido" class="pedido-form" th:action="@{/pedidos/salvar}" method="post" th:object="${pedido}">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
             <input type="hidden" name="idPedido" th:field="*{idPedido}" />
 
             <div class="form-group">

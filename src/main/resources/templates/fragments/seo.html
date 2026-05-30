@@ -1,0 +1,119 @@
+<!-- SEO Fragment - Centraliza todas as meta tags e Schema.org -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+<!-- ===== META TAGS ESSENCIAIS ===== -->
+<meta charset="UTF-8" th:fragment="charset">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" th:fragment="viewport">
+<meta name="theme-color" content="#0066cc" th:fragment="theme-color">
+<meta name="apple-mobile-web-app-capable" content="yes" th:fragment="apple-mobile">
+
+<!-- ===== DESCRIÇÃO E KEYWORDS ===== -->
+<th:block th:fragment="meta-description(description)">
+    <meta name="description" th:content="${description != null ? description : 'Sistema de Gerenciamento Acadêmico Inovatech - Gestão de alunos, cursos, professores e disciplinas.'}">
+</th:block>
+
+<th:block th:fragment="meta-keywords(keywords)">
+    <meta name="keywords" th:content="${keywords != null ? keywords : 'gerenciamento acadêmico, sistema educacional, alunos, cursos, professores, inovatech'}">
+</th:block>
+
+<!-- ===== OPEN GRAPH (Social Media) ===== -->
+<th:block th:fragment="open-graph(title, description, imageUrl, pageUrl, type)">
+    <meta property="og:type" th:content="${type != null ? type : 'website'}">
+    <meta property="og:title" th:content="${title != null ? title : 'Sistema Inovatech'}">
+    <meta property="og:description" th:content="${description != null ? description : 'Plataforma completa de gerenciamento acadêmico'}">
+    <meta property="og:image" th:content="${imageUrl != null ? imageUrl : 'https://seu-site.com/og-image.png'}">
+    <meta property="og:url" th:content="${pageUrl != null ? pageUrl : 'https://seu-site.com'}">
+    <meta property="og:locale" content="pt_BR">
+</th:block>
+
+<!-- ===== TWITTER CARDS ===== -->
+<th:block th:fragment="twitter-card(title, description, imageUrl)">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" th:content="${title != null ? title : 'Sistema Inovatech'}">
+    <meta name="twitter:description" th:content="${description != null ? description : 'Plataforma de gerenciamento acadêmico'}">
+    <meta name="twitter:image" th:content="${imageUrl != null ? imageUrl : 'https://seu-site.com/og-image.png'}">
+    <meta name="twitter:creator" content="@Gabriel_S_Silva">
+</th:block>
+
+<!-- ===== FAVICON ===== -->
+<link rel="icon" type="image/x-icon" href="/favicon.ico" th:fragment="favicon">
+
+<!-- ===== CANONICAL TAG ===== -->
+<th:block th:fragment="canonical(canonicalUrl)">
+    <link rel="canonical" th:href="${canonicalUrl}">
+</th:block>
+
+<!-- ===== JSON-LD SCHEMA (Organization) ===== -->
+<script type="application/ld+json" th:fragment="schema-organization">
+{
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Inovatech",
+    "url": "https://seu-site.com",
+    "logo": "https://seu-site.com/logo.png",
+    "description": "Plataforma completa de gerenciamento acadêmico com recursos avançados",
+    "sameAs": [
+        "https://www.linkedin.com/company/inovatech",
+        "https://www.instagram.com/inovatech"
+    ],
+    "contactPoint": {
+        "@type": "ContactPoint",
+        "contactType": "Customer Service",
+        "email": "contato@seu-site.com"
+    }
+}
+</script>
+
+<!-- ===== JSON-LD SCHEMA (Breadcrumb) ===== -->
+<th:block th:fragment="schema-breadcrumb(items)">
+    <script type="application/ld+json" th:inline="javascript">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [[(${items})]]
+    }
+    </script>
+</th:block>
+
+<!-- ===== JSON-LD SCHEMA (WebPage) ===== -->
+<th:block th:fragment="schema-webpage(title, description, imageUrl, datePublished, dateModified)">
+    <script type="application/ld+json" th:inline="javascript">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": [(${title})],
+        "description": [(${description})],
+        "image": [(${imageUrl})],
+        "datePublished": [(${datePublished})],
+        "dateModified": [(${dateModified})],
+        "publisher": {
+            "@type": "Organization",
+            "name": "Inovatech",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "https://seu-site.com/logo.png"
+            }
+        }
+    }
+    </script>
+</th:block>
+
+<!-- ===== JSON-LD SCHEMA (Person - Para páginas de professor/aluno) ===== -->
+<th:block th:fragment="schema-person(name, email, image)">
+    <script type="application/ld+json" th:inline="javascript">
+    {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": [(${name})],
+        "email": [(${email})],
+        "image": [(${image})]
+    }
+    </script>
+</th:block>
+
+</head>
+<body>
+</body>
+</html>

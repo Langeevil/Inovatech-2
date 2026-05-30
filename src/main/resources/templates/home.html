@@ -1,13 +1,50 @@
 <!DOCTYPE html>
 <html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <!-- ===== META TAGS ESSENCIAIS ===== -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema Inovatech</title>
+    <meta name="theme-color" content="#0066cc">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    
+    <!-- ===== TÍTULO E DESCRIÇÃO ===== -->
+    <title>Painel do Usuário - Sistema Inovatech</title>
+    <meta name="description" content="Painel de controle do Sistema Inovatech. Acesso rápido a alunos, cursos, professores, disciplinas, pedidos, produtos e relatórios.">
+    <meta name="keywords" content="painel, dashboard, gerenciamento, alunos, cursos, professores, disciplinas">
+    
+    <!-- ===== OPEN GRAPH ===== -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Painel de Controle - Sistema Inovatech">
+    <meta property="og:description" content="Acesso rápido a todos os módulos do sistema acadêmico">
+    <meta property="og:url" content="https://seu-site.com/home">
+    <meta property="og:locale" content="pt_BR">
+    
+    <!-- ===== TWITTER CARDS ===== -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Painel - Sistema Inovatech">
+    <meta name="twitter:description" content="Dashboard de gerenciamento acadêmico">
+    
+    <!-- ===== CANONICAL TAG ===== -->
+    <link rel="canonical" href="https://seu-site.com/home">
+    
+    <!-- ===== JSON-LD WEBPAGE ===== -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "Painel de Controle",
+        "description": "Painel de controle do Sistema Inovatech",
+        "publisher": {
+            "@type": "Organization",
+            "name": "Inovatech"
+        }
+    }
+    </script>
+    
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-    <header>
+    <header role="banner">
         <div class="app-header">
             <div class="brand-title">Sistema Inovatech</div>
 
@@ -22,6 +59,7 @@
                     <strong th:text="${nomeUsuarioLogado}">Usuario</strong>
 
                     <form th:action="@{/logout}" method="post">
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
                         <button type="submit" class="btn btn-danger">Sair</button>
                     </form>
                 </div>
@@ -29,59 +67,72 @@
         </div>
     </header>
 
-    <main class="container">
+    <th:block th:replace="~{fragments/breadcrumbs :: breadcrumb(${breadcrumbItems})}"></th:block>
+
+    <main class="container" role="main">
         <section class="page-intro">
-            <h1>Gerenciamento academico</h1>
-            <p>Acesse as areas do sistema.</p>
+            <h1>Gerenciamento acadêmico</h1>
+            <p>Acesse as áreas do sistema.</p>
         </section>
 
-        <div class="menu-grid">
-            <a class="menu-card" th:href="@{/alunos/listar}">
+        <div class="menu-grid" role="list">
+            <a class="menu-card" th:href="@{/alunos/listar}" role="listitem" itemscope itemtype="https://schema.org/Thing">
+                <meta itemprop="name" content="Alunos">
                 <span class="menu-tag">Cadastro</span>
                 <h2>Alunos</h2>
-                <p>Gerenciar informacoes dos alunos.</p>
+                <p itemprop="description">Gerenciar informações dos alunos.</p>
             </a>
 
-            <a class="menu-card" th:href="@{/cursos/listar}">
-                <span class="menu-tag">Academico</span>
+            <a class="menu-card" th:href="@{/cursos/listar}" role="listitem" itemscope itemtype="https://schema.org/Thing">
+                <meta itemprop="name" content="Cursos">
+                <span class="menu-tag">Acadêmico</span>
                 <h2>Cursos</h2>
-                <p>Gerenciar cursos disponiveis.</p>
+                <p itemprop="description">Gerenciar cursos disponíveis.</p>
             </a>
 
-            <a class="menu-card" th:href="@{/professores/listar}">
+            <a class="menu-card" th:href="@{/professores/listar}" role="listitem" itemscope itemtype="https://schema.org/Thing">
+                <meta itemprop="name" content="Professores">
                 <span class="menu-tag">Equipe</span>
                 <h2>Professores</h2>
-                <p>Gerenciar corpo docente.</p>
+                <p itemprop="description">Gerenciar corpo docente.</p>
             </a>
 
-            <a class="menu-card" th:href="@{/disciplinas/listar}">
+            <a class="menu-card" th:href="@{/disciplinas/listar}" role="listitem" itemscope itemtype="https://schema.org/Thing">
+                <meta itemprop="name" content="Disciplinas">
                 <span class="menu-tag">Grade</span>
                 <h2>Disciplinas</h2>
-                <p>Gerenciar disciplinas por curso.</p>
+                <p itemprop="description">Gerenciar disciplinas por curso.</p>
             </a>
             
-            <a class="menu-card" th:href="@{/pedidos/listar}">
+            <a class="menu-card" th:href="@{/pedidos/listar}" role="listitem" itemscope itemtype="https://schema.org/Thing">
+                <meta itemprop="name" content="Pedidos">
                 <span class="menu-tag">Financeiro</span>
                 <h2>Pedidos</h2>
-                <p>Gerenciar pedidos e vendas.</p>
+                <p itemprop="description">Gerenciar pedidos e vendas.</p>
             </a>
             
-            <a class="menu-card" th:href="@{/produtos/listar}">
+            <a class="menu-card" th:href="@{/produtos/listar}" role="listitem" itemscope itemtype="https://schema.org/Thing">
+                <meta itemprop="name" content="Produtos">
                 <span class="menu-tag">Financeiro</span>
                 <h2>Produtos</h2>
-                <p>Gerenciar produtos e servicos.</p>
+                <p itemprop="description">Gerenciar produtos e serviços.</p>
             </a>
 
-            <a class="menu-card" th:href="@{/relatorios/alunos}">
-                <span class="menu-tag">Relatorios</span>
-                <h2>Relatorio de Alunos</h2>
-                <p>Visualizar alunos cadastrados e gerar PDF.</p>
+            <a class="menu-card" th:href="@{/relatorios/alunos}" role="listitem" itemscope itemtype="https://schema.org/Thing">
+                <meta itemprop="name" content="Relatório de Alunos">
+                <span class="menu-tag">Relatórios</span>
+                <h2>Relatório de Alunos</h2>
+                <p itemprop="description">Visualizar alunos cadastrados e gerar PDF.</p>
             </a>
 
         </div>
     </main>
-    <footer class="footer">
-        <p>© <script>document.write(new Date().getFullYear());</script> Gabriel da Silva Siqueira · Todos os direitos reservados.</p>
+    <footer class="footer" role="contentinfo" itemscope itemtype="https://schema.org/Organization">
+        <meta itemprop="name" content="Inovatech">
+        <p>&copy; <span id="year"></span> Gabriel da Silva Siqueira · Todos os direitos reservados.</p>
     </footer>
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
 </body>
 </html>

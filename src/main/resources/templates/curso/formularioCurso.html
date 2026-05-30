@@ -12,8 +12,11 @@
         <h1>Cadastro de Curso</h1>
     </header>
 
+    <th:block th:replace="~{fragments/breadcrumbs :: breadcrumb(${breadcrumbItems})}"></th:block>
+
     <div class="container">
         <form th:action="@{/cursos/salvar}" method="post" th:object="${curso}">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
             <input type="hidden" name="idCurso" th:field="*{idCurso}" />
 
             <div class="form-group">

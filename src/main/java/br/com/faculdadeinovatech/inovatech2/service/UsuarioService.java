@@ -22,13 +22,18 @@ public class UsuarioService {
     private PasswordEncoder passwordEncoder;
 
     public Usuario save(Usuario usuario) {
-        // Criptografa a senha antes de salvar
-        usuario.setSenhaUsuario(passwordEncoder.encode(usuario.getSenhaUsuario()));
+        usuario.setLoginUsuario(normalizarLogin(usuario.getLoginUsuario()));
+        usuario.setCpfUsuario(removerNaoDigitos(usuario.getCpfUsuario()));
+
+        if (usuario.getSenhaUsuario() != null && !usuario.getSenhaUsuario().startsWith("$2")) {
+            usuario.setSenhaUsuario(passwordEncoder.encode(usuario.getSenhaUsuario()));
+        }
+
         return usuarioRepository.save(usuario);
     }
 
     public Optional<String> criarTokenResetSenha(String email) {
-        Optional<Usuario> usuarioEncontrado = usuarioRepository.findByLoginUsuario(email);
+        Optional<Usuario> usuarioEncontrado = usuarioRepository.findByLoginUsuario(normalizarLogin(email));
 
         if (usuarioEncontrado.isEmpty()) {
             return Optional.empty();
@@ -79,6 +84,14 @@ public class UsuarioService {
         return usuarioRepository.findByTokenResetSenha(token)
                 .filter(usuario -> usuario.getTokenResetSenhaExpiracao() != null)
                 .filter(usuario -> usuario.getTokenResetSenhaExpiracao().isAfter(LocalDateTime.now()));
+    }
+
+    private String normalizarLogin(String login) {
+        return login == null ? null : login.trim().toLowerCase();
+    }
+
+    private String removerNaoDigitos(String valor) {
+        return valor == null ? null : valor.replaceAll("\\D", "");
     }
     
     

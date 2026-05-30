@@ -7,10 +7,13 @@
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
+    <th:block th:replace="~{fragments/breadcrumbs :: breadcrumb(${breadcrumbItems})}"></th:block>
+
     <div class="container">
         <h1>Cadastro de Usuarios</h1>
 
         <form th:action="@{/usuarios/salvar}" method="post" th:object="${usuario}">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
             <input type="hidden" name="idUsuario" th:field="*{idUsuario}" />
 
             <div class="form-group">

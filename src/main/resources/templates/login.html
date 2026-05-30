@@ -1,16 +1,52 @@
 <!DOCTYPE html>
 <html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <!-- ===== META TAGS ESSENCIAIS ===== -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Acesso ao Sistema</title>
+    <meta name="theme-color" content="#0066cc">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    
+    <!-- ===== TÍTULO E DESCRIÇÃO ===== -->
+    <title>Login - Sistema Inovatech</title>
+    <meta name="description" content="Faça login no Sistema Inovatech para acessar a plataforma de gerenciamento acadêmico.">
+    <meta name="keywords" content="login, acesso, sistema inovatech, autentificação">
+    
+    <!-- ===== OPEN GRAPH ===== -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Login - Sistema Inovatech">
+    <meta property="og:description" content="Acesse o Sistema Inovatech com suas credenciais">
+    <meta property="og:url" content="https://seu-site.com/login">
+    <meta property="og:locale" content="pt_BR">
+    
+    <!-- ===== CANONICAL TAG ===== -->
+    <link rel="canonical" href="https://seu-site.com/login">
+    
+    <!-- ===== JSON-LD WEBPAGE ===== -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "Login",
+        "description": "Página de login do Sistema Inovatech",
+        "publisher": {
+            "@type": "Organization",
+            "name": "Inovatech"
+        }
+    }
+    </script>
+    
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-    <div class="container">
-        <h1>Faca o seu login</h1>
+    <th:block th:replace="~{fragments/breadcrumbs :: breadcrumb(${breadcrumbItems})}"></th:block>
 
-        <form th:action="@{/login}" method="post">
+    <main class="container" role="main">
+        <h1>Faça o seu login</h1>
+
+        <form th:action="@{/login}" method="post" itemscope itemtype="https://schema.org/WebPage">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+            <meta itemprop="name" content="Formulário de Login">
             <div class="form-group">
                 <label for="username">Login:</label>
                 <input type="text" id="username" name="username" placeholder="Digite seu login" autocomplete="username" required>
@@ -24,17 +60,17 @@
             <div class="form-actions">
                 <button type="submit">Entrar</button>
                 <a class="btn btn-secondary" th:href="@{/recuperar-senha}">Esqueci minha senha</a>
-                <a class="btn btn-secondary" th:href="@{/}">Voltar ao inicio</a>
+                <a class="btn btn-secondary" th:href="@{/}">Voltar ao início</a>
             </div>
         </form>
 
         <div class="alert alert-danger" role="alert" th:if="${param.error}">
-            <strong>Login invalido</strong>
+            <strong>Login inválido</strong>
             <p>Confira seu login e sua senha e tente novamente.</p>
         </div>
 
         <div class="alert alert-success" role="status" th:if="${param.logout}">
-            <strong>Sessao encerrada</strong>
+            <strong>Sessão encerrada</strong>
             <p>Logout realizado com sucesso.</p>
         </div>
 
@@ -42,9 +78,18 @@
             <strong>Senha atualizada</strong>
             <p>Sua senha foi alterada com sucesso. Entre novamente para acessar o sistema.</p>
         </div>
-    </div>
-    <footer class="footer">
-        <p>© <script>document.write(new Date().getFullYear());</script> Gabriel da Silva Siqueira · Todos os direitos reservados.</p>
+
+        <div class="alert alert-success" role="status" th:if="${param.cadastroSucesso}">
+            <strong>Cadastro realizado</strong>
+            <p>Entre com o e-mail e a senha cadastrados.</p>
+        </div>
+    </main>
+    <footer class="footer" role="contentinfo" itemscope itemtype="https://schema.org/Organization">
+        <meta itemprop="name" content="Inovatech">
+        <p>&copy; <span id="year"></span> Gabriel da Silva Siqueira · Todos os direitos reservados.</p>
     </footer>
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
 </body>
 </html>

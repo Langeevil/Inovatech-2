@@ -1,29 +1,80 @@
 <!DOCTYPE html>
 <html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <!-- ===== META TAGS ESSENCIAIS ===== -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bem-vindo</title>
+    <meta name="theme-color" content="#0066cc">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    
+    <!-- ===== TÍTULO E DESCRIÇÃO ===== -->
+    <title>Sistema de Gerenciamento Acadêmico - Inovatech</title>
+    <meta name="description" content="Inovatech: Plataforma completa de gerenciamento acadêmico. Gerencie alunos, cursos, professores e disciplinas de forma eficiente.">
+    <meta name="keywords" content="gerenciamento acadêmico, sistema educacional, alunos, cursos, professores, inovatech, educação">
+    
+    <!-- ===== OPEN GRAPH (Social Media) ===== -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Sistema Inovatech - Gerenciamento Acadêmico">
+    <meta property="og:description" content="Plataforma completa para gerenciamento de instituições educacionais">
+    <meta property="og:image" content="https://seu-site.com/og-image.png">
+    <meta property="og:url" content="https://seu-site.com">
+    <meta property="og:locale" content="pt_BR">
+    
+    <!-- ===== TWITTER CARDS ===== -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Sistema Inovatech - Gerenciamento Acadêmico">
+    <meta name="twitter:description" content="Plataforma de gerenciamento acadêmico completa e intuitiva">
+    <meta name="twitter:image" content="https://seu-site.com/og-image.png">
+    
+    <!-- ===== CANONICAL TAG ===== -->
+    <link rel="canonical" href="https://seu-site.com/">
+    
+    <!-- ===== JSON-LD SCHEMA ===== -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Inovatech",
+        "url": "https://seu-site.com",
+        "logo": "https://seu-site.com/logo.png",
+        "description": "Plataforma completa de gerenciamento acadêmico",
+        "contactPoint": {
+            "@type": "ContactPoint",
+            "contactType": "Customer Service",
+            "email": "contato@seu-site.com"
+        }
+    }
+    </script>
+    
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-    <header>
+    <header role="banner">
         <h1>Sistema Inovatech</h1>
     </header>
 
-    <div class="container">
-        <div class="card">
-            <h2>Bem-vindo ao Sistema Inovatech</h2>
-            <p>Faca o seu login para acessar as funcionalidades do sistema.</p>
+    <th:block th:replace="~{fragments/breadcrumbs :: breadcrumb(${breadcrumbItems})}"></th:block>
+
+    <main class="container" role="main">
+        <div class="card" itemscope itemtype="https://schema.org/WebPage">
+            <meta itemprop="name" content="Página Inicial - Sistema Inovatech">
+            <meta itemprop="description" content="Plataforma de gerenciamento acadêmico Inovatech">
+            <h1 itemprop="headline">Bem-vindo ao Sistema Inovatech</h1>
+            <p itemprop="description">Faça o seu login para acessar as funcionalidades do sistema de gerenciamento acadêmico.</p>
 
             <div class="form-actions">
                 <a class="btn btn-primary" th:href="@{/login}">Login</a>
                 <a class="btn btn-secondary" th:href="@{/usuarios/criar}">Cadastre-se</a>
             </div>
         </div>
-    </div>
-    <footer class="footer">
-        <p>© <script>document.write(new Date().getFullYear());</script> Gabriel da Silva Siqueira · Todos os direitos reservados.</p>
+        </div>
+    </main>
+    <footer class="footer" role="contentinfo" itemscope itemtype="https://schema.org/Organization">
+        <meta itemprop="name" content="Inovatech">
+        <p>&copy; <span id="year"></span> Gabriel da Silva Siqueira · Todos os direitos reservados.</p>
     </footer>
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
 </body>
 </html>

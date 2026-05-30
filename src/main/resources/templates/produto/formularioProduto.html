@@ -14,8 +14,11 @@
         <h1>Cadastro de Produto</h1>
     </header>
 
+    <th:block th:replace="~{fragments/breadcrumbs :: breadcrumb(${breadcrumbItems})}"></th:block>
+
     <div class="container">
         <form th:action="@{/produtos/salvar}" method="post" th:object="${produto}">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
             <input type="hidden" name="idProduto" th:field="*{idProduto}" />
 
             <div class="form-group">
@@ -25,7 +28,7 @@
 
             <div class="form-group">
                 <label for="valorProduto"><i aria-hidden="true" class="fas fa-dollar-sign"></i> Valor:</label>
-                <input type="number" name="valorProduto" th:field="*{valorProduto}" placeholder="Ex: 99.90"
+                <input type="text" name="valorProduto" th:field="*{valorProduto}" placeholder="Ex: 99.90"
                     data-validacao="dinheiro" required>
             </div>
 

@@ -12,6 +12,8 @@
         <h1>Gerenciamento de Alunos</h1>
     </header>
 
+    <th:block th:replace="~{fragments/breadcrumbs :: breadcrumb(${breadcrumbItems})}"></th:block>
+
     <div class="container">
         <div class="page-actions">
             <a th:href="@{/alunos/criar}" class="add-button"><i aria-hidden="true" class="fas fa-plus"></i> Adicionar Novo Aluno</a>

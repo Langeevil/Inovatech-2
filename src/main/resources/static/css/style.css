@@ -48,6 +48,8 @@ body {
 
 /* ===== Header & Navigation ===== */
 header {
+    position: relative;
+    z-index: 300;
     background: var(--surface-color);
     padding: 24px 20px;
     border-bottom: 1px solid var(--border-color);
@@ -79,6 +81,7 @@ header h1::after {
 
 .user-menu {
     position: relative;
+    z-index: 400;
     flex: 0 0 auto;
 }
 
@@ -117,7 +120,7 @@ header h1::after {
     position: absolute;
     right: 0;
     top: calc(100% + 8px);
-    z-index: 20;
+    z-index: 500;
     width: 240px;
     padding: 16px;
     border: 1px solid var(--border-color);
@@ -934,4 +937,62 @@ table a[onclick*="confirm"]:hover {
         display: block;
         overflow-x: auto;
     }
+}
+
+/* ===== BREADCRUMB NAVIGATION (SEO) ===== */
+.breadcrumb-nav {
+    position: relative;
+    z-index: 1;
+    background: var(--surface-color);
+    border-bottom: 1px solid var(--border-color);
+    padding: 12px 20px;
+    margin-bottom: 20px;
+    font-size: 0.9em;
+}
+
+.breadcrumb-list {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0;
+}
+
+.breadcrumb-item {
+    display: flex;
+    align-items: center;
+}
+
+.breadcrumb-item:not(:last-child)::after {
+    content: " / ";
+    margin: 0 8px;
+    color: var(--muted-text);
+}
+
+.breadcrumb-item a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: all 0.2s ease;
+    padding: 4px 6px;
+    border-radius: 2px;
+    position: relative;
+}
+
+.breadcrumb-item a:hover {
+    color: var(--primary-hover);
+    text-decoration: underline;
+    background-color: rgba(0, 102, 204, 0.1);
+}
+
+.breadcrumb-item a:focus-visible {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+    background-color: rgba(0, 102, 204, 0.1);
+}
+
+.breadcrumb-item span[aria-current="page"] {
+    color: var(--muted-text);
+    font-weight: 600;
 }

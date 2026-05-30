@@ -13,9 +13,9 @@
             title: "Informe um telefone valido. Ex: (11) 99999-9999 ou 11999999999"
         },
         dinheiro: {
+            pattern: "^\\d+(\\.\\d{2})$",
+            type: "text",
             inputmode: "decimal",
-            min: "0",
-            step: "0.01",
             title: "Informe um valor em reais. Ex: 99.90"
         },
         inteiro: {
@@ -55,16 +55,25 @@
         return digitos.replace(/^(\d{2})(\d{5})(\d{1,4}).*/, "($1) $2-$3");
     };
 
-    const formatarDinheiro = (valor) => {
+    const formatarDinheiro = (valor, finalizar = false) => {
         const normalizado = valor
             .replace(",", ".")
             .replace(/[^\d.]/g, "");
 
         const partes = normalizado.split(".");
-        const inteiro = partes[0] || "";
-        const decimal = partes.length > 1 ? `.${partes.slice(1).join("").slice(0, 2)}` : "";
+        const temDecimal = partes.length > 1;
+        const inteiro = partes[0] || (temDecimal ? "0" : "");
+        const decimal = partes.slice(1).join("").slice(0, 2);
 
-        return `${inteiro}${decimal}`;
+        if (!finalizar) {
+            return temDecimal ? `${inteiro}.${decimal}` : inteiro;
+        }
+
+        if (!inteiro && !decimal) {
+            return "";
+        }
+
+        return `${inteiro || "0"}.${decimal.padEnd(2, "0")}`;
     };
 
     const formatarInteiro = (valor) => somenteDigitos(valor);
@@ -81,7 +90,7 @@
         });
     };
 
-    const aplicarMascara = (campo) => {
+    const aplicarMascara = (campo, finalizar = false) => {
         switch (campo.dataset.validacao) {
             case "cpf":
                 campo.value = formatarCpf(campo.value);
@@ -90,7 +99,7 @@
                 campo.value = formatarTelefone(campo.value);
                 break;
             case "dinheiro":
-                campo.value = formatarDinheiro(campo.value);
+                campo.value = formatarDinheiro(campo.value, finalizar);
                 break;
             case "inteiro":
                 campo.value = formatarInteiro(campo.value);
@@ -114,6 +123,22 @@
 
         aplicarMascara(campo);
     });
+
+    document.addEventListener("blur", (event) => {
+        const campo = event.target.closest("[data-validacao='dinheiro']");
+
+        if (!campo) {
+            return;
+        }
+
+        aplicarMascara(campo, true);
+    }, true);
+
+    document.addEventListener("submit", (event) => {
+        event.target
+            .querySelectorAll("[data-validacao='dinheiro']")
+            .forEach((campo) => aplicarMascara(campo, true));
+    }, true);
 
     document.addEventListener("DOMContentLoaded", () => {
         document.querySelectorAll("[data-validacao]").forEach(configurarCampo);

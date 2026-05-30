@@ -23,7 +23,7 @@ public class UsuarioController {
     @PostMapping("/salvar")
     public String salvar(@ModelAttribute Usuario usuario) {
         usuarioService.save(usuario);
-        return "/login";
+        return "redirect:/login?cadastroSucesso";
     }
 
     @GetMapping("/criar")

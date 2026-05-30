@@ -1,0 +1,49 @@
+# robots.txt - Controla o rastreamento de bots/crawlers dos mecanismos de busca
+# Documentação: https://www.robotstxt.org/
+
+# Regras para todos os bots
+User-agent: *
+
+# Permite rastreamento do site inteiro
+Allow: /
+
+# Bloqueia áreas administrativas e privadas
+Disallow: /admin
+Disallow: /login
+Disallow: /logout
+Disallow: /usuarios/criar
+Disallow: /recuperar-senha
+Disallow: /trocar-senha
+Disallow: /error
+Disallow: /*.pdf$
+Disallow: /tmp/
+Disallow: /cache/
+
+# Permite bots específicos para análise
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+# Bing Previewbot
+User-agent: Bingbot-Mobile
+Allow: /
+
+# Googlebot para mobile
+User-agent: Googlebot-Mobile
+Allow: /
+
+# Yahoo
+User-agent: Slurp
+Allow: /
+
+# Regras gerais de crawl delay (opcional, evita sobrecarga)
+Crawl-delay: 1
+
+# Sitemap - URL do mapa de índice do site
+Sitemap: https://seu-site.com/sitemap.xml
+Sitemap: https://seu-site.com/sitemap-alunos.xml
+Sitemap: https://seu-site.com/sitemap-cursos.xml
+Sitemap: https://seu-site.com/sitemap-disciplinas.xml
+Sitemap: https://seu-site.com/sitemap-professores.xml

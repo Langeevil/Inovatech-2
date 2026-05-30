@@ -1,0 +1,60 @@
+<!-- Semantic HTML Fragment - Tags semânticas otimizadas -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+
+<!-- ===== PÁGINA ARTICLE ===== -->
+<!-- Uso: Para páginas de conteúdo como relatórios, detalhes de alunos -->
+<th:block th:fragment="article-header(title, description, datePublished, dateModified, author)">
+    <article itemscope itemtype="https://schema.org/Article">
+        <header class="article-header">
+            <h1 itemprop="headline" th:text="${title}">Título do Artigo</h1>
+            <p itemprop="description" th:text="${description}">Descrição</p>
+            <div class="article-meta">
+                <span itemprop="author" th:text="${author}">Autor</span>
+                <time itemprop="datePublished" th:datetime="${datePublished}"></time>
+                <time itemprop="dateModified" th:datetime="${dateModified}"></time>
+            </div>
+        </header>
+</th:block>
+
+<!-- ===== MAIN CONTENT SECTION ===== -->
+<!-- Uso: Container principal do conteúdo da página -->
+<th:block th:fragment="main-section(title)">
+    <main class="main-content" role="main">
+        <section>
+            <h1 th:if="${title}" th:text="${title}">Título da Seção</h1>
+</th:block>
+
+<!-- ===== NAVIGATION SEMANTIC ===== -->
+<!-- Uso: Para menus de navegação -->
+<th:block th:fragment="nav-menu(items, ariaLabel)">
+    <nav th:attr="aria-label=${ariaLabel}">
+        <ul role="list">
+            <li th:each="item : ${items}">
+                <a th:href="${item.url}" th:text="${item.label}">Link</a>
+            </li>
+        </ul>
+    </nav>
+</th:block>
+
+<!-- ===== FOOTER SEMANTIC ===== -->
+<!-- Uso: Footer com informações estruturadas -->
+<th:block th:fragment="footer(year, companyName, contact)">
+    <footer role="contentinfo" class="footer" itemscope itemtype="https://schema.org/Organization">
+        <meta itemprop="name" th:content="${companyName}">
+        <meta itemprop="email" th:content="${contact}">
+        <p>&copy; <span th:text="${year}">2026</span> <span itemprop="name" th:text="${companyName}">Inovatech</span> · Todos os direitos reservados.</p>
+    </footer>
+</th:block>
+
+<!-- ===== OPTIMIZED TITLE TAG ===== -->
+<!-- Uso: Título dinâmico da página -->
+<th:block th:fragment="page-title(pageTitle, siteName)">
+    <title th:text="${pageTitle} + ' - ' + ${siteName}">Página - Sistema Inovatech</title>
+</th:block>
+
+</body>
+</html>

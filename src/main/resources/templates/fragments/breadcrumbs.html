@@ -1,0 +1,37 @@
+<!-- Breadcrumbs Fragment - Navegação com Schema.org (Sem Home Link) -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+
+<!-- ===== BREADCRUMB HTML + SCHEMA (WCAG Compliant) ===== -->
+<!-- Nota: "Home" foi removido para evitar confusão com redirecionamento de login -->
+<!-- Use este fragmento passando os itens sem "Home" na lista -->
+<th:block th:fragment="breadcrumb(items)">
+    <!-- Breadcrumb Visual -->
+    <nav aria-label="Breadcrumb" class="breadcrumb-nav">
+        <ol class="breadcrumb-list">
+            <li class="breadcrumb-item" th:each="item, iter : ${items}">
+                <th:block th:if="${!iter.last}">
+                    <a th:href="${item.url}" th:text="${item.label}">Link</a>
+                </th:block>
+                <th:block th:if="${iter.last}">
+                    <span aria-current="page" th:text="${item.label}">Página Atual</span>
+                </th:block>
+            </li>
+        </ol>
+    </nav>
+
+    <!-- Breadcrumb Schema JSON-LD -->
+    <script type="application/ld+json" th:inline="javascript">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": /*[[${breadcrumbSchemaItems}]]*/ []
+    }
+    </script>
+</th:block>
+
+</body>
+</html>

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- ===== META TAGS ESSENCIAIS ===== -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0066cc">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    
+    <!-- ===== TÍTULO E DESCRIÇÃO ===== -->
+    <title>Listar Alunos - Sistema Inovatech</title>
+    <meta name="description" content="Visualize e gerencie todos os alunos cadastrados no Sistema Inovatech. Acesse informações detalhadas, edite e delete alunos conforme necessário.">
+    <meta name="keywords" content="alunos, listar alunos, gerenciar alunos, sistema acadêmico, inovatech">
+    
+    <!-- ===== OPEN GRAPH ===== -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Listar Alunos - Sistema Inovatech">
+    <meta property="og:description" content="Gerenciamento de alunos cadastrados na plataforma">
+    <meta property="og:url" content="https://seu-site.com/alunos/listar">
+    <meta property="og:locale" content="pt_BR">
+    
+    <!-- ===== TWITTER CARDS ===== -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Listar Alunos - Sistema Inovatech">
+    <meta name="twitter:description" content="Gerenciamento acadêmico de alunos">
+    
+    <!-- ===== CANONICAL TAG ===== -->
+    <link rel="canonical" href="https://seu-site.com/alunos/listar">
+    
+    <!-- ===== JSON-LD BREADCRUMB ===== -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Alunos",
+                "item": "https://seu-site.com/alunos/listar"
+            }
+        ]
+    }
+    </script>
+    
+    <!-- ===== JSON-LD WEBPAGE ===== -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "Listar Alunos",
+        "description": "Página de gerenciamento e listagem de alunos",
+        "publisher": {
+            "@type": "Organization",
+            "name": "Inovatech"
+        }
+    }
+    </script>
+    
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <header role="banner">
+        <div class="app-header">
+            <div class="brand-title">Sistema Inovatech</div>
+            <!-- ... menu do usuário ... -->
+        </div>
+    </header>
+
+    <!-- ===== BREADCRUMB NAVIGATION ===== -->
+    <nav aria-label="Breadcrumb" class="breadcrumb-nav">
+        <ol class="breadcrumb-list">
+            <li class="breadcrumb-item"><span aria-current="page">Alunos</span></li>
+        </ol>
+    </nav>
+
+    <!-- ===== MAIN CONTENT ===== -->
+    <main class="container" role="main">
+        <!-- Seção introdutória -->
+        <section class="page-intro">
+            <h1>Gerenciamento de Alunos</h1>
+            <p>Visualize, edite e gerencie todos os alunos cadastrados no sistema.</p>
+        </section>
+
+        <!-- Botão de ação -->
+        <div class="form-actions">
+            <a class="btn btn-primary" th:href="@{/alunos/criar}">+ Novo Aluno</a>
+        </div>
+
+        <!-- Tabela de alunos com ARIA para acessibilidade -->
+        <div class="table-container">
+            <table role="grid" aria-label="Lista de alunos cadastrados">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Nome</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Data de Cadastro</th>
+                        <th scope="col">Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Exemplo de linha com microdata -->
+                    <tr th:each="aluno : ${alunos}" itemscope itemtype="https://schema.org/Person">
+                        <td th:text="${aluno.id}">1</td>
+                        <td>
+                            <strong itemprop="name" th:text="${aluno.nome}">Nome do Aluno</strong>
+                        </td>
+                        <td>
+                            <a itemprop="email" th:href="'mailto:' + ${aluno.email}" th:text="${aluno.email}">
+                                email@exemplo.com
+                            </a>
+                        </td>
+                        <td>
+                            <time itemprop="birthDate" th:datetime="${#dates.format(aluno.dataCadastro, 'yyyy-MM-dd')}" 
+                                  th:text="${#dates.format(aluno.dataCadastro, 'dd/MM/yyyy')}">
+                                01/01/2024
+                            </time>
+                        </td>
+                        <td>
+                            <a class="btn btn-secondary" th:href="@{/alunos/editar/{id}(id=${aluno.id})}" 
+                               aria-label="Editar aluno">Editar</a>
+                            <form th:action="@{/alunos/deletar/{id}(id=${aluno.id})}" method="post" style="display:inline;">
+                                <button type="submit" class="btn btn-danger" 
+                                        onclick="return confirm('Tem certeza que deseja deletar?')"
+                                        aria-label="Deletar aluno">Deletar</button>
+                            </form>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Seção de filtros/pesquisa com ARIA -->
+        <section aria-label="Filtros de busca">
+            <form th:action="@{/alunos/pesquisar}" method="get" class="search-form">
+                <div class="form-group">
+                    <label for="pesquisa">Pesquisar por nome:</label>
+                    <input type="text" id="pesquisa" name="q" placeholder="Digite o nome do aluno" aria-label="Pesquisar alunos">
+                </div>
+                <button type="submit" class="btn btn-primary">Pesquisar</button>
+            </form>
+        </section>
+    </main>
+
+    <!-- ===== FOOTER SEMÂNTICO ===== -->
+    <footer class="footer" role="contentinfo" itemscope itemtype="https://schema.org/Organization">
+        <meta itemprop="name" content="Inovatech">
+        <meta itemprop="email" content="contato@seu-site.com">
+        <p>&copy; <span id="year"></span> Gabriel da Silva Siqueira · Todos os direitos reservados.</p>
+    </footer>
+
+    <script>
+        // Preencher ano automaticamente
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>
+
+<!-- 
+    ===== EXPLICAÇÃO DE SEO IMPLEMENTADO =====
+    
+    1. META TAGS:
+       - Title: Descritivo e contém palavra-chave "Alunos"
+       - Description: Resumo claro (até 160 caracteres)
+       - Keywords: Termos relevantes separados por vírgulas
+       - og:* tags: Para compartilhamento em redes sociais
+       - twitter: tags: Para Twitter/X
+       - canonical: URL canônica para evitar duplicatas
+
+    2. JSON-LD SCHEMAS:
+       - BreadcrumbList: Navegação estruturada
+       - WebPage: Informação sobre a página
+       - Person (em cada linha): Estrutura de dados para alunos
+
+    3. HTML SEMÂNTICO:
+       - <main> com role="main": Conteúdo principal
+       - <header>, <footer> com roles apropriados
+       - <section> para agrupar conteúdo relacionado
+       - <table> com aria-label e scope
+
+    4. BREADCRUMBS:
+       - <nav> com aria-label="Breadcrumb"
+       - Estrutura clara de navegação
+       - Integrado com JSON-LD para SEO
+
+    5. ACESSIBILIDADE (Bonus):
+       - aria-label em elementos interativos
+       - aria-current="page" para página atual
+       - role="grid" para tabelas
+       - scope="col"/"row" para headers de tabela
+       - labels associados com <input>
+
+    6. MICRODATA:
+       - itemscope/itemtype em elementos Person
+       - itemprop="name", "email", etc.
+       - <time> com datetime para datas estruturadas
+
+    IMPACTO SEO:
+    ✅ Melhor compreensão pelo Google
+    ✅ Rich snippets possíveis
+    ✅ Melhor estrutura para busca
+    ✅ Acessibilidade melhorada
+    ✅ Melhor experiência do usuário
+-->
